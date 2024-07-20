@@ -21,3 +21,24 @@ This project implements a smart irrigation system using an Arduino Uno. The syst
 
 ## Wiring Diagram
 (Include a wiring diagram image or description here)
+
+## Setup and Usage
+1. Connect the sensors and pumps to the Arduino Uno as per the wiring diagram.
+2. Upload the provided code to the Arduino Uno.
+3. Open the Serial Monitor to view the sensor readings.
+4. The LCD will display the current temperature, humidity, and soil moisture levels. The pumps will turn on or off based on the soil moisture readings.
+
+## Video Demonstration
+[![Smart Irrigation System](http://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](http://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+- Thank you to all the open-source contributors who made this project possible.
+
+## Contributions
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+## Contact
+For any inquiries, please contact [Your Name] at [Your Email].
