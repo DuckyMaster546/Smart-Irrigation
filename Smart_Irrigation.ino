@@ -10,20 +10,10 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 DHT dht(DHTPIN, DHTTYPE);
 
 // Define the pin numbers for pump 1
-const int IN1 = 6;
-const int IN2 = 7;
+const int IN1 = 13;
+const int IN2 = 12;
 
-// Define the pin numbers for pump 2
-const int IN3 = 10;
-const int IN4 = 11;
-
-// Define the pin numbers for pump 3
-const int IN5 = 8;
-const int IN6 = 9;
-
-// Define the pin numbers for pump 4
-const int IN7 = 3;
-const int IN8 = 4;
+const int ENA = 9;
 
 int redPin = A2;
 int greenPin = A3;
@@ -32,7 +22,7 @@ void Pump1_on(){
   Serial.println("-----------------------");
   Serial.println("Pumping on 1...");
   digitalWrite(IN1, HIGH);   // Set IN1 to HIGH
-  digitalWrite(IN2, LOW);    // Set IN2 to LOW
+  digitalWrite(IN2, LOW);    // Set IN2 to LO
 }
 void Pump1_off(){
   Serial.println("-----------------------");
@@ -40,42 +30,42 @@ void Pump1_off(){
   digitalWrite(IN1, LOW);   // Set IN1 to HIGH
   digitalWrite(IN2, LOW);    // Set IN2 to LOW
 }
-void Pump2_on(){
-  Serial.println("-----------------------");
-  Serial.println("Pumping on 2...");
-  digitalWrite(IN3, HIGH);   // Set IN1 to HIGH
-  digitalWrite(IN4, LOW);    // Set IN2 to LOW
-}
-void Pump2_off(){
-  Serial.println("-----------------------");
-  Serial.println("No water needed!");
-  digitalWrite(IN3, LOW);   // Set IN1 to HIGH
-  digitalWrite(IN4, LOW);    // Set IN2 to LOW
-}
-void Pump3_on(){
-  Serial.println("-----------------------");
-  Serial.println("Pumping on 3...");
-  digitalWrite(IN5, HIGH);   // Set IN1 to HIGH
-  digitalWrite(IN6, LOW);    // Set IN2 to LOW
-}
-void Pump3_off(){
-  Serial.println("-----------------------");
-  Serial.println("No water needed!");
-  digitalWrite(IN5, LOW);   // Set IN1 to HIGH
-  digitalWrite(IN6, LOW);    // Set IN2 to LOW
-}
-void Pump4_on(){
-  Serial.println("-----------------------");
-  Serial.println("Pumping on 4...");
-  digitalWrite(IN7, HIGH);   // Set IN1 to HIGH
-  digitalWrite(IN8, LOW);    // Set IN2 to LOW
-}
-void Pump4_off(){
-  Serial.println("-----------------------");
-  Serial.println("No water needed!");
-  digitalWrite(IN7, LOW);   // Set IN1 to HIGH
-  digitalWrite(IN8, LOW);    // Set IN2 to LOW
-}
+// void Pump2_on(){
+//   Serial.println("-----------------------");
+//   Serial.println("Pumping on 2...");
+//   digitalWrite(IN3, HIGH);   // Set IN1 to HIGH
+//   digitalWrite(IN4, LOW);    // Set IN2 to LOW
+// }
+// void Pump2_off(){
+//   Serial.println("-----------------------");
+//   Serial.println("No water needed!");
+//   digitalWrite(IN3, LOW);   // Set IN1 to HIGH
+//   digitalWrite(IN4, LOW);    // Set IN2 to LOW
+// }
+// void Pump3_on(){
+//   Serial.println("-----------------------");
+//   Serial.println("Pumping on 3...");
+//   digitalWrite(IN5, HIGH);   // Set IN1 to HIGH
+//   digitalWrite(IN6, LOW);    // Set IN2 to LOW
+// }
+// void Pump3_off(){
+//   Serial.println("-----------------------");
+//   Serial.println("No water needed!");
+//   digitalWrite(IN5, LOW);   // Set IN1 to HIGH
+//   digitalWrite(IN6, LOW);    // Set IN2 to LOW
+// }
+// void Pump4_on(){
+//   Serial.println("-----------------------");
+//   Serial.println("Pumping on 4...");
+//   digitalWrite(IN7, HIGH);   // Set IN1 to HIGH
+//   digitalWrite(IN8, LOW);    // Set IN2 to LOW
+// }
+// void Pump4_off(){
+//   Serial.println("-----------------------");
+//   Serial.println("No water needed!");
+//   digitalWrite(IN7, LOW);   // Set IN1 to HIGH
+//   digitalWrite(IN8, LOW);    // Set IN2 to LOW
+// }
 
 void setColor(int red, int green) {
   analogWrite(redPin, red);
@@ -90,12 +80,13 @@ void setup() {
   pinMode(soilMoisture, INPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
-  pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
-  pinMode(IN5, OUTPUT);
-  pinMode(IN6, OUTPUT);
-  pinMode(IN7, OUTPUT);
-  pinMode(IN8, OUTPUT);
+  // pinMode(IN3, OUTPUT);
+  // pinMode(IN4, OUTPUT);
+  // pinMode(IN5, OUTPUT);
+  // pinMode(IN6, OUTPUT);
+  // pinMode(IN7, OUTPUT);
+  // pinMode(IN8, OUTPUT);
+  pinMode(ENA, OUTPUT);
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
   Serial.println("Setup is running");
@@ -104,7 +95,7 @@ void setup() {
 
 float hif;
 
-void loop() {
+void loop() {  
 
   int soilMoistData = analogRead(soilMoisture);
   float h = dht.readHumidity();
