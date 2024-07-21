@@ -4,7 +4,7 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-#define DHTPIN 3
+#define DHTPIN 2
 #define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
@@ -25,60 +25,68 @@ const int IN6 = 9;
 const int IN7 = 3;
 const int IN8 = 4;
 
+int redPin = A2;
+int greenPin = A3;
+
 void Pump1_on(){
-  lcd.setCursor(0, 0);
-  lcd.print("Pumping on 1...");
+  Serial.println("-----------------------");
+  Serial.println("Pumping on 1...");
   digitalWrite(IN1, HIGH);   // Set IN1 to HIGH
   digitalWrite(IN2, LOW);    // Set IN2 to LOW
 }
 void Pump1_off(){
-  lcd.setCursor(0, 0);
-  lcd.print("No water needed!");
+  Serial.println("-----------------------");
+  Serial.println("No water needed!");
   digitalWrite(IN1, LOW);   // Set IN1 to HIGH
   digitalWrite(IN2, LOW);    // Set IN2 to LOW
 }
 void Pump2_on(){
-  lcd.setCursor(0, 0);
-  lcd.print("Pumping on 2...");
+  Serial.println("-----------------------");
+  Serial.println("Pumping on 2...");
   digitalWrite(IN3, HIGH);   // Set IN1 to HIGH
   digitalWrite(IN4, LOW);    // Set IN2 to LOW
 }
 void Pump2_off(){
-  lcd.setCursor(0, 0);
-  lcd.print("No water needed!");
+  Serial.println("-----------------------");
+  Serial.println("No water needed!");
   digitalWrite(IN3, LOW);   // Set IN1 to HIGH
   digitalWrite(IN4, LOW);    // Set IN2 to LOW
 }
 void Pump3_on(){
-  lcd.setCursor(0, 0);
-  lcd.print("Pumping on 3...");
+  Serial.println("-----------------------");
+  Serial.println("Pumping on 3...");
   digitalWrite(IN5, HIGH);   // Set IN1 to HIGH
   digitalWrite(IN6, LOW);    // Set IN2 to LOW
 }
 void Pump3_off(){
-  lcd.setCursor(0, 0);
-  lcd.print("No water needed!");
+  Serial.println("-----------------------");
+  Serial.println("No water needed!");
   digitalWrite(IN5, LOW);   // Set IN1 to HIGH
   digitalWrite(IN6, LOW);    // Set IN2 to LOW
 }
 void Pump4_on(){
-  lcd.setCursor(0, 0);
-  lcd.print("Pumping on 4...");
+  Serial.println("-----------------------");
+  Serial.println("Pumping on 4...");
   digitalWrite(IN7, HIGH);   // Set IN1 to HIGH
   digitalWrite(IN8, LOW);    // Set IN2 to LOW
 }
 void Pump4_off(){
-  lcd.setCursor(0, 0);
-  lcd.print("No water needed!");
+  Serial.println("-----------------------");
+  Serial.println("No water needed!");
   digitalWrite(IN7, LOW);   // Set IN1 to HIGH
   digitalWrite(IN8, LOW);    // Set IN2 to LOW
 }
 
+void setColor(int red, int green) {
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+}
 
 int soilMoisture = A0;
 
 void setup() {
   Serial.begin(9600);
+  dht.begin();
   pinMode(soilMoisture, INPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -88,46 +96,48 @@ void setup() {
   pinMode(IN6, OUTPUT);
   pinMode(IN7, OUTPUT);
   pinMode(IN8, OUTPUT);
-  lcd.begin(16, 2);
-  lcd.backlight();
-  lcd.setBacklight(HIGH);
-  lcd.setCursor(0, 0);
-  for (int i = 0; i < 3; i++) {
-    lcd.setCursor(0, i);
-    lcd.print(".");
-    delay(500); // Add a delay to show the dots one by one
-  }
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  Serial.println("Setup is running");
+  delay(800);
 };
+
+float hif;
 
 void loop() {
 
   int soilMoistData = analogRead(soilMoisture);
   float h = dht.readHumidity();
+  float t = dht.readTemperature();
   float f = dht.readTemperature(true);
   float hif = dht.computeHeatIndex(f, h);
-
+  float hic = dht.computeHeatIndex(t, h, false);
 
   if (soilMoistData > 950) {
     Pump1_on();
-    lcd.setCursor(0, 1);
-    lcd.print("Dry > Motor ON");
+    setColor(255, 0);
+    Serial.println("Dry > Motor ON");
+    Serial.println("-----------------------");
   } else if(soilMoistData >= 400 && soilMoistData <= 950) {
-    Pump1_on();
-    lcd.setCursor(0, 1);
-    lcd.print("Moist > Motor OFF");
+    Pump1_off();
+    setColor(0, 255);
+    Serial.println("Moist > Motor OFF");
+    Serial.println("-----------------------");
   } else if(soilMoistData < 400 ) {
     Pump1_off();
-    lcd.setCursor(0, 1);
-    lcd.print("Wet > Motor OFF");
+    setColor(0, 255);
+    Serial.println("Wet > Motor OFF");
+    Serial.println("-----------------------");
   }
 
   delay(500);
 
-  lcd.setCursor(0, 0);
-  lcd.print("Temperature: " + String(f) + "°F");
-  lcd.setCursor(0, 1);
-  lcd.print("Humidity: " + String(h) + "%");
+  Serial.println("----------MORE INFO-------------");
+  Serial.println("Temperature: " + String(f) + "°F");
+  Serial.println("Humidity: " + String(h) + "%");
+  Serial.println("-----------------------");
 
-  delay(500);
+
+  delay(2000);
 
 }
