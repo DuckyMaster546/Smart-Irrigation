@@ -29,7 +29,7 @@ This project implements a smart irrigation system using an Arduino Uno. The syst
 4. The LCD will display the current temperature, humidity, and soil moisture levels. The pumps will turn on or off based on the soil moisture readings.
 
 ## Video Demonstration
-[![Smart Irrigation System](http://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](http://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Smart Irrigation System](https://www.youtube.com/watch?v=TW65gbc1Fio)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
