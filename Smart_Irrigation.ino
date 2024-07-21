@@ -12,8 +12,11 @@ DHT dht(DHTPIN, DHTTYPE);
 // Define the pin numbers for pump 1
 const int IN1 = 13;
 const int IN2 = 12;
-
 const int ENA = 9;
+
+const int IN3 = 4;
+const int IN4 = 3;
+const int ENB = 11;
 
 int redPin = A2;
 int greenPin = A3;
@@ -30,18 +33,18 @@ void Pump1_off(){
   digitalWrite(IN1, LOW);   // Set IN1 to HIGH
   digitalWrite(IN2, LOW);    // Set IN2 to LOW
 }
-// void Pump2_on(){
-//   Serial.println("-----------------------");
-//   Serial.println("Pumping on 2...");
-//   digitalWrite(IN3, HIGH);   // Set IN1 to HIGH
-//   digitalWrite(IN4, LOW);    // Set IN2 to LOW
-// }
-// void Pump2_off(){
-//   Serial.println("-----------------------");
-//   Serial.println("No water needed!");
-//   digitalWrite(IN3, LOW);   // Set IN1 to HIGH
-//   digitalWrite(IN4, LOW);    // Set IN2 to LOW
-// }
+void Pump2_on(){
+  Serial.println("-----------------------");
+  Serial.println("Pumping on 2...");
+  digitalWrite(IN3, HIGH);   // Set IN1 to HIGH
+  digitalWrite(IN4, LOW);    // Set IN2 to LOW
+}
+void Pump2_off(){
+  Serial.println("-----------------------");
+  Serial.println("No water needed!");
+  digitalWrite(IN3, LOW);   // Set IN1 to HIGH
+  digitalWrite(IN4, LOW);    // Set IN2 to LOW
+}
 // void Pump3_on(){
 //   Serial.println("-----------------------");
 //   Serial.println("Pumping on 3...");
@@ -80,16 +83,18 @@ void setup() {
   pinMode(soilMoisture, INPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
-  // pinMode(IN3, OUTPUT);
-  // pinMode(IN4, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
   // pinMode(IN5, OUTPUT);
   // pinMode(IN6, OUTPUT);
   // pinMode(IN7, OUTPUT);
   // pinMode(IN8, OUTPUT);
   pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
   Serial.println("Setup is running");
+  digitalWrite(ENA, HIGH);
   delay(800);
 };
 
@@ -110,14 +115,14 @@ void loop() {
     Serial.println("Dry > Motor ON");
     Serial.println("-----------------------");
   } else if(soilMoistData >= 400 && soilMoistData <= 950) {
-    Pump1_off();
-    setColor(0, 255);
-    Serial.println("Moist > Motor OFF");
+    Pump1_on();
+    setColor(255, 0);
+    Serial.println("Moist > Motor ON");
     Serial.println("-----------------------");
   } else if(soilMoistData < 400 ) {
-    Pump1_off();
-    setColor(0, 255);
-    Serial.println("Wet > Motor OFF");
+    Pump1_on();
+    setColor(255, 0);
+    Serial.println("Wet > Motor ON");
     Serial.println("-----------------------");
   }
 
